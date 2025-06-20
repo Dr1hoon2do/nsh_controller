@@ -1,23 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>loading...</title>
 </head>
+
 <body>
 </body>
+
 <script>
-    fetch('client.html')
-      .then(res => {
-        if (!res.ok) throw new Error('로드 실패');
-        return res.text();
-      })
-      .then(html => {
-        document.getElementById('container').innerHTML = html;
-      })
-      .catch(err => {
-        document.getElementById('container').innerText = "불러오기 실패: " + err;
+  document.getElementById("launch").addEventListener("click", async () => {
+    try {
+      const res = await fetch("client.html");
+      if (!res.ok) throw new Error("로드 실패");
+
+      const htmlText = await res.text();
+
+      // Blob으로 변환 → 브라우저에서 새 창으로 열 수 있음
+      const blob = new Blob([htmlText], {
+        type: "text/html"
       });
-  </script>
+      const url = URL.createObjectURL(blob);
+
+      window.open(url, "_blank");
+
+    } catch (err) {
+      alert("client.html 불러오기 실패: " + err.message);
+    }
+  });
+</script>
+
 </html>
