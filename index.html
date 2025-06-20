@@ -15,6 +15,8 @@
       fetch("client.html")
         .then(res => res.text())
         .then(html => {
+          const port = 35565;
+          window.open(`http://localhost:${port}`, "_blank");
           let win = window.open();
           win.document.write(html);
           win.document.close();
